@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hora Amiga</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="relogio.icon.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+
+    <nav id="sidebar">
+        <div id="sidebar_content">
+            <div id="unipar">
+                <img src="logounipar.jpg.jpeg" id="Unipar" alt="Logo UNIPAR">
+            </div>
+
+            <button id="open-btn" type="button" aria-label="Abrir ou fechar menu" aria-expanded="false">
+                <i id="open_btn_icon" class="fa-solid fa-bars"></i>
+            </button>
+
+            <ul id="side-items">
+                <li class="side-item">
+                    <a href="#" id="open-proposal">
+                        <i class="fa-regular fa-lightbulb"></i>
+                        <span class="item-description">Sua proposta</span>
+                    </a>
+                </li>
+
+               <li class="side-item">
+                    <a href="#" id="open-team">
+                        <i class="fa-solid fa-user-group"></i>
+                        <span class="item-description">Nossa equipe</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <header class="page-header">
+            <h1>Campanhas disponíveis</h1>
+            <p>Participe das ações e conquiste horas complementares.</p>
+        </header>
+
+        <!-- FILTROS -->
+        <section class="filter-section" aria-label="Filtros de campanhas">
+            <div class="filter-heading">
+                <i class="fa-solid fa-filter"></i>
+                <h2>Encontre sua campanha</h2>
+            </div>
+
+            <div class="filter-fields">
+                <div class="filter-field">
+                    <label for="filter-hours">Horas complementares</label>
+                    <select id="filter-hours">
+                        <option value="all">Todas as horas</option>
+                    </select>
+                </div>
+
+                <div class="filter-field">
+                    <label for="filter-category">Tipo de campanha</label>
+                    <select id="filter-category">
+                        <option value="all">Todas as categorias</option>
+                    </select>
+                </div>
+
+                <button id="clear-filters" class="clear-filters" type="button">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    Limpar filtros
+                </button>
+            </div>
+        </section>
+
+        <section id="campaign-list" class="campaign-grid" aria-label="Campanhas disponíveis"></section>
+    </main>
+
+    <!-- MODAL DE DETALHES DAS CAMPANHAS -->
+    <div id="campaign-modal" class="modal" role="dialog"
+        aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+
+        <div class="modal-content">
+            <button id="close-modal" class="close-modal" type="button" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <img id="modal-image" class="modal-image" src="" alt="">
+
+            <div class="modal-body">
+                <span id="modal-category" class="campaign-category"></span>
+                <h2 id="modal-title"></h2>
+                <p id="modal-description" class="modal-description"></p>
+
+                <div class="modal-info">
+                    <div class="info-item">
+                        <i class="fa-regular fa-calendar"></i>
+                        <div>
+                            <strong>Prazo final</strong>
+                            <span id="modal-deadline"></span>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <i class="fa-regular fa-clock"></i>
+                        <div>
+                            <strong>Horas complementares</strong>
+                            <span id="modal-hours"></span>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <i class="fa-solid fa-box"></i>
+                        <div>
+                            <strong>Limite por aluno</strong>
+                            <span id="modal-limit"></span>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <div>
+                            <strong>Local de entrega</strong>
+                            <span id="modal-location"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="items-heading">Itens aceitos</h3>
+                <ul id="modal-items" class="accepted-items"></ul>
+
+                <div class="delivery-note">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <p id="modal-instructions"></p>
+                </div>
+
+                <button id="confirm-modal" class="modal-button" type="button">
+                    Entendi
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL SUA PROPOSTA -->
+    <div id="proposal-modal" class="modal" role="dialog"
+        aria-modal="true" aria-labelledby="proposal-title" aria-hidden="true">
+
+        <div class="modal-content proposal-content">
+            <button id="close-proposal" class="close-modal" type="button" aria-label="Fechar formulário">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="proposal-header">
+                <div class="proposal-icon">
+                    <i class="fa-regular fa-lightbulb"></i>
+                </div>
+
+                <h2 id="proposal-title">Sua proposta de campanha</h2>
+                <p>Tem uma ideia para ajudar a comunidade? Compartilhe sua proposta conosco!</p>
+            </div>
+
+            <form id="proposal-form">
+                <input type="text" name="_honey" class="proposal-honeypot"
+                    tabindex="-1" autocomplete="off" aria-hidden="true">
+
+                <input type="hidden" name="_subject"
+                    value="Nova proposta de campanha - Hora Amiga">
+
+                <div class="proposal-fields">
+                    <div class="proposal-field">
+                        <label for="proposal-name">Seu nome completo *</label>
+                        <input type="text" id="proposal-name" name="Nome"
+                            placeholder="Digite seu nome" required>
+                    </div>
+
+                    <div class="proposal-field">
+                        <label for="proposal-email">Seu e-mail *</label>
+                        <input type="email" id="proposal-email" name="E-mail do proponente"
+                            placeholder="seuemail@exemplo.com" required>
+                    </div>
+
+                    <div class="proposal-field">
+                        <label for="proposal-campaign">Nome da campanha *</label>
+                        <input type="text" id="proposal-campaign" name="Nome da campanha"
+                            placeholder="Ex.: Arrecadação de alimentos"
+                            maxlength="120" required>
+                    </div>
+
+                    <div class="proposal-field">
+                        <label for="proposal-category">Categoria *</label>
+                        <select id="proposal-category" name="Categoria" required>
+                            <option value="">Selecione uma categoria</option>
+                            <option value="Solidariedade">Solidariedade</option>
+                            <option value="Meio ambiente">Meio ambiente</option>
+                            <option value="Ação social">Ação social</option>
+                            <option value="Educação">Educação</option>
+                            <option value="Saúde">Saúde</option>
+                            <option value="Outra">Outra</option>
+                        </select>
+                    </div>
+
+                    <div class="proposal-field">
+                        <label for="proposal-description">Descrição da proposta *</label>
+                        <textarea id="proposal-description" name="Descrição"
+                            rows="5" maxlength="3000"
+                            placeholder="Explique o objetivo da campanha, o que será arrecadado e como ela funcionaria..."
+                            required></textarea>
+                    </div>
+
+                    <div class="proposal-field">
+                        <label for="proposal-deadline">Prazo desejado para a campanha</label>
+                        <input type="date" id="proposal-deadline" name="Prazo desejado">
+                    </div>
+
+                    <div class="proposal-field">
+                        <label for="proposal-location">Local de entrega ou realização</label>
+                        <input type="text" id="proposal-location" name="Local"
+                            placeholder="Informe o local, se já souber">
+                    </div>
+
+                    <div class="proposal-field">
+                        <label for="proposal-hours">Sugestão de horas complementares</label>
+                        <input type="number" id="proposal-hours" name="Sugestão de horas"
+                            min="0" max="1000" step="1" placeholder="Ex.: 5">
+                    </div>
+                </div>
+
+                <p class="proposal-notice">
+                    <i class="fa-solid fa-circle-info"></i>
+                    Sua proposta será analisada pela equipe e não será publicada automaticamente.
+                </p>
+
+                <p id="proposal-status" class="proposal-status" role="status" aria-live="polite"></p>
+
+                <button type="submit" id="send-proposal" class="modal-button proposal-submit">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    Enviar proposta
+                </button>
+            </form>
+        </div>
+    </div>
+    <!-- MODAL NOSSA EQUIPE -->
+<div id="team-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="team-title" aria-hidden="true">
+    <div class="modal-content">
+        <button id="close-team" class="close-modal" type="button" aria-label="Fechar modal da equipa">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="proposal-header">
+            <div class="proposal-icon">
+                <i class="fa-solid fa-user-group"></i>
+            </div>
+            <h2 id="team-title">Nossa Equipe</h2>
+            <h4>   O Hora Amiga é um projeto criado para auxiliar os
+                    estudantes, proporcionando acesso rápido, prático e
+                    organizado às horas complementares. Aqui você encontrará
+                    avisos de campanhas, palestras e outras formas de obter
+                    horas complementares, além de poder sugerir novas campanhas! </h4> 
+                    <p> Conheça os responsáveis pelo projeto Hora Amiga.</p>
+        </div>
+        
+       <div class="modal-body">
+            <div class="team-grid">
+                <!-- Membro 1 -->
+                <div class="team-member">
+                    <img src="izafoto.jpeg" alt="Foto do membro">
+                    <h3>Izabely Cogielski</h3>
+                    <p>Designer</p>
+                    <!-- From Uiverse.io by Creatlydev --> 
+<a href="link" target="_blank" class="btn-github">
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M7.99992 1.33331C7.12444 1.33331 6.25753 1.50575 5.4487 1.84078C4.63986 2.17581 3.90493 2.66688 3.28587 3.28593C2.03563 4.53618 1.33325 6.23187 1.33325 7.99998C1.33325 10.9466 3.24659 13.4466 5.89325 14.3333C6.22659 14.3866 6.33325 14.18 6.33325 14C6.33325 13.8466 6.33325 13.4266 6.33325 12.8733C4.48659 13.2733 4.09325 11.98 4.09325 11.98C3.78659 11.2066 3.35325 11 3.35325 11C2.74659 10.5866 3.39992 10.6 3.39992 10.6C4.06659 10.6466 4.41992 11.2866 4.41992 11.2866C4.99992 12.3 5.97992 12 6.35992 11.84C6.41992 11.4066 6.59325 11.1133 6.77992 10.9466C5.29992 10.78 3.74659 10.2066 3.74659 7.66665C3.74659 6.92665 3.99992 6.33331 4.43325 5.85998C4.36659 5.69331 4.13325 4.99998 4.49992 4.09998C4.49992 4.09998 5.05992 3.91998 6.33325 4.77998C6.85992 4.63331 7.43325 4.55998 7.99992 4.55998C8.56659 4.55998 9.13992 4.63331 9.66659 4.77998C10.9399 3.91998 11.4999 4.09998 11.4999 4.09998C11.8666 4.99998 11.6333 5.69331 11.5666 5.85998C11.9999 6.33331 12.2533 6.92665 12.2533 7.66665C12.2533 10.2133 10.6933 10.7733 9.20659 10.94C9.44659 11.1466 9.66659 11.5533 9.66659 12.1733C9.66659 13.0666 9.66659 13.7866 9.66659 14C9.66659 14.18 9.77325 14.3933 10.1133 14.3333C12.7599 13.44 14.6666 10.9466 14.6666 7.99998C14.6666 7.1245 14.4941 6.25759 14.1591 5.44876C13.8241 4.63992 13.333 3.90499 12.714 3.28593C12.0949 2.66688 11.36 2.17581 10.5511 1.84078C9.7423 1.50575 8.8754 1.33331 7.99992 1.33331V1.33331Z"
+      fill="currentcolor"
+    ></path>
+  </svg>
+  <span>Github</span>
+</a>
+
+                </div>
+                
+                <!-- Membro 2 -->
+                <div class="team-member">
+                    <img src="juliafoto.jpeg" alt="Foto do membro">
+                    <h3>Julia Izadora</h3>
+                    <p>Dev Front-End</p>
+                    <!-- From Uiverse.io by Creatlydev --> 
+<a href="https://github.com/Julia-Leonardo" target="_blank" class="btn-github">
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M7.99992 1.33331C7.12444 1.33331 6.25753 1.50575 5.4487 1.84078C4.63986 2.17581 3.90493 2.66688 3.28587 3.28593C2.03563 4.53618 1.33325 6.23187 1.33325 7.99998C1.33325 10.9466 3.24659 13.4466 5.89325 14.3333C6.22659 14.3866 6.33325 14.18 6.33325 14C6.33325 13.8466 6.33325 13.4266 6.33325 12.8733C4.48659 13.2733 4.09325 11.98 4.09325 11.98C3.78659 11.2066 3.35325 11 3.35325 11C2.74659 10.5866 3.39992 10.6 3.39992 10.6C4.06659 10.6466 4.41992 11.2866 4.41992 11.2866C4.99992 12.3 5.97992 12 6.35992 11.84C6.41992 11.4066 6.59325 11.1133 6.77992 10.9466C5.29992 10.78 3.74659 10.2066 3.74659 7.66665C3.74659 6.92665 3.99992 6.33331 4.43325 5.85998C4.36659 5.69331 4.13325 4.99998 4.49992 4.09998C4.49992 4.09998 5.05992 3.91998 6.33325 4.77998C6.85992 4.63331 7.43325 4.55998 7.99992 4.55998C8.56659 4.55998 9.13992 4.63331 9.66659 4.77998C10.9399 3.91998 11.4999 4.09998 11.4999 4.09998C11.8666 4.99998 11.6333 5.69331 11.5666 5.85998C11.9999 6.33331 12.2533 6.92665 12.2533 7.66665C12.2533 10.2133 10.6933 10.7733 9.20659 10.94C9.44659 11.1466 9.66659 11.5533 9.66659 12.1733C9.66659 13.0666 9.66659 13.7866 9.66659 14C9.66659 14.18 9.77325 14.3933 10.1133 14.3333C12.7599 13.44 14.6666 10.9466 14.6666 7.99998C14.6666 7.1245 14.4941 6.25759 14.1591 5.44876C13.8241 4.63992 13.333 3.90499 12.714 3.28593C12.0949 2.66688 11.36 2.17581 10.5511 1.84078C9.7423 1.50575 8.8754 1.33331 7.99992 1.33331V1.33331Z"
+      fill="currentcolor"
+    ></path>
+  </svg>
+  <span>Github</span>
+</a>
+
+                </div>
+                 <!-- Membro 3 -->
+                <div class="team-member">
+                    <img src="Lari.jpeg" alt="Foto do membro">
+                    <h3>Lariessa Wolff</h3>
+                    <p>Analista de Requisitos</p>
+                    <!-- From Uiverse.io by Creatlydev --> 
+<a href="https://github.com/Lariih838" target="_blank" class="btn-github">
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M7.99992 1.33331C7.12444 1.33331 6.25753 1.50575 5.4487 1.84078C4.63986 2.17581 3.90493 2.66688 3.28587 3.28593C2.03563 4.53618 1.33325 6.23187 1.33325 7.99998C1.33325 10.9466 3.24659 13.4466 5.89325 14.3333C6.22659 14.3866 6.33325 14.18 6.33325 14C6.33325 13.8466 6.33325 13.4266 6.33325 12.8733C4.48659 13.2733 4.09325 11.98 4.09325 11.98C3.78659 11.2066 3.35325 11 3.35325 11C2.74659 10.5866 3.39992 10.6 3.39992 10.6C4.06659 10.6466 4.41992 11.2866 4.41992 11.2866C4.99992 12.3 5.97992 12 6.35992 11.84C6.41992 11.4066 6.59325 11.1133 6.77992 10.9466C5.29992 10.78 3.74659 10.2066 3.74659 7.66665C3.74659 6.92665 3.99992 6.33331 4.43325 5.85998C4.36659 5.69331 4.13325 4.99998 4.49992 4.09998C4.49992 4.09998 5.05992 3.91998 6.33325 4.77998C6.85992 4.63331 7.43325 4.55998 7.99992 4.55998C8.56659 4.55998 9.13992 4.63331 9.66659 4.77998C10.9399 3.91998 11.4999 4.09998 11.4999 4.09998C11.8666 4.99998 11.6333 5.69331 11.5666 5.85998C11.9999 6.33331 12.2533 6.92665 12.2533 7.66665C12.2533 10.2133 10.6933 10.7733 9.20659 10.94C9.44659 11.1466 9.66659 11.5533 9.66659 12.1733C9.66659 13.0666 9.66659 13.7866 9.66659 14C9.66659 14.18 9.77325 14.3933 10.1133 14.3333C12.7599 13.44 14.6666 10.9466 14.6666 7.99998C14.6666 7.1245 14.4941 6.25759 14.1591 5.44876C13.8241 4.63992 13.333 3.90499 12.714 3.28593C12.0949 2.66688 11.36 2.17581 10.5511 1.84078C9.7423 1.50575 8.8754 1.33331 7.99992 1.33331V1.33331Z"
+      fill="currentcolor"
+    ></path>
+  </svg>
+  <span>Github</span>
+</a>
+
+                </div>
+                 <!-- Membro 4 -->
+                <div class="team-member">
+                    <img src="eufoto.jpeg" alt="Foto do membro">
+                    <h3>Nadiny Giuliani</h3>
+                    <p>Dev Front-End</p>
+                    <!-- From Uiverse.io by Creatlydev --> 
+<a href="https://github.com/nadiny80408" target="_blank" class="btn-github">
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M7.99992 1.33331C7.12444 1.33331 6.25753 1.50575 5.4487 1.84078C4.63986 2.17581 3.90493 2.66688 3.28587 3.28593C2.03563 4.53618 1.33325 6.23187 1.33325 7.99998C1.33325 10.9466 3.24659 13.4466 5.89325 14.3333C6.22659 14.3866 6.33325 14.18 6.33325 14C6.33325 13.8466 6.33325 13.4266 6.33325 12.8733C4.48659 13.2733 4.09325 11.98 4.09325 11.98C3.78659 11.2066 3.35325 11 3.35325 11C2.74659 10.5866 3.39992 10.6 3.39992 10.6C4.06659 10.6466 4.41992 11.2866 4.41992 11.2866C4.99992 12.3 5.97992 12 6.35992 11.84C6.41992 11.4066 6.59325 11.1133 6.77992 10.9466C5.29992 10.78 3.74659 10.2066 3.74659 7.66665C3.74659 6.92665 3.99992 6.33331 4.43325 5.85998C4.36659 5.69331 4.13325 4.99998 4.49992 4.09998C4.49992 4.09998 5.05992 3.91998 6.33325 4.77998C6.85992 4.63331 7.43325 4.55998 7.99992 4.55998C8.56659 4.55998 9.13992 4.63331 9.66659 4.77998C10.9399 3.91998 11.4999 4.09998 11.4999 4.09998C11.8666 4.99998 11.6333 5.69331 11.5666 5.85998C11.9999 6.33331 12.2533 6.92665 12.2533 7.66665C12.2533 10.2133 10.6933 10.7733 9.20659 10.94C9.44659 11.1466 9.66659 11.5533 9.66659 12.1733C9.66659 13.0666 9.66659 13.7866 9.66659 14C9.66659 14.18 9.77325 14.3933 10.1133 14.3333C12.7599 13.44 14.6666 10.9466 14.6666 7.99998C14.6666 7.1245 14.4941 6.25759 14.1591 5.44876C13.8241 4.63992 13.333 3.90499 12.714 3.28593C12.0949 2.66688 11.36 2.17581 10.5511 1.84078C9.7423 1.50575 8.8754 1.33331 7.99992 1.33331V1.33331Z"
+      fill="currentcolor"
+    ></path>
+  </svg>
+  <span>Github</span>
+</a>
+
+               
+                    
+                </div>
+            </div>
+        </div> 
+    </div> 
+    <script src="script.js"></script>
+</body>
+</html>
